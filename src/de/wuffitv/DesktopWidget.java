@@ -18,11 +18,11 @@ public class DesktopWidget {
 		desktopWidget.frame.setLayout(null);
 		desktopWidget.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		desktopWidget.frame.setSize(600, 400);
-		desktopWidget.frame.setUndecorated(false);		
-//		desktopWidget.frame.setBackground(transparent);
+		desktopWidget.frame.setUndecorated(true);		
+		desktopWidget.frame.setBackground(transparent);
 		
-		Object o = new Object(new Point(150, 150), 150);
-		o.setBounds(0, 0, 400, 400);
+		Object o = new Object(new Point(100, 87), 100);
+		o.setBounds(0, 0, 200, 200);
 		desktopWidget.frame.add(o);
 		
 		desktopWidget.frame.setVisible(true);

@@ -8,70 +8,140 @@ import java.awt.Polygon;
 import javax.swing.JPanel;
 
 public class Object extends JPanel {
-	
+
 	private static final long serialVersionUID = 1L;
-	private final int CORNERS = 4;
+	
+	/**
+	 * Mittelpunkt des Polygons
+	 */
 	private Point centerPoint;
+	
+	/**
+	 * Punkt links oben, des umrahmendes Rechtecks
+	 */
+	private Point startPoint;
+	
+	/**
+	 * Radius des Umkreises
+	 * Gleichzeitig die Kantenlänge
+	 */
 	private int radius;
 	
-	public Object(Point middle, int radius) {
-		centerPoint = middle;
-		this.radius = radius;
-		
-//		setBackground(Color.YELLOW);
-	}
+	/**
+	 * 
+	 */
+	Color backgroundColor = new Color(255, 255, 255, 0);
 	
+	/**
+	 * Constructor
+	 * @param centerPoint
+	 * @param radius
+	 */
+	public Object(Point centerPoint, int radius) {
+		/**
+		 * Parameter als Attributen speichern
+		 */
+		this.radius = radius;
+		this.centerPoint = centerPoint;
+		
+		/**
+		 * startPoint berechnen
+		 */
+		int new_x = centerPoint.x - radius;
+		int new_y = centerPoint.y - (int) (Math.round(radius * Math.cos(Math.toRadians(30))));
+		this.startPoint = new Point(new_x, new_y);
+		
+		/**
+		 * weitere Eigenschaften für Polygon definieren
+		 */
+		setBackground(backgroundColor);
+	}
+
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
 		System.err.println("PAINT");
-		
-		int degreesPerPart = 360/CORNERS;
-		int[] listX = new int[CORNERS];
-		int[] listY = new int[CORNERS];
-		
-		for(int i = 0; i < CORNERS; i++) {
-			int currentDegree = degreesPerPart * (i);
-			
-			double x = centerPoint.x + Math.cos(currentDegree) * radius;
-			listX[i] = (int)x;
-			
-			double y = centerPoint.y + Math.sin(currentDegree) * radius;
-			listY[i] = (int)y;
 
-//			System.out.println("currentDegree: " + currentDegree + " z: " + listX.get(i));
-//			System.out.println(i);
-			System.out.println("X: " + (Math.cos(currentDegree) * radius) + " Y: " + (Math.sin(currentDegree) * radius));
-			System.out.println("Winkel: " + currentDegree);
-			
-		}
-		System.out.println("===================================");
-		
-		int h = listX[3];
-		
-		g.setColor(Color.BLACK);
-		g.drawOval((int)(centerPoint.x-0.5*radius), (int)(centerPoint.y-0.5*radius), 10, 10);
-		
-		g.setColor(Color.GRAY);
-		g.drawOval(centerPoint.x+150, centerPoint.y+0, 5, 5);
-		g.drawOval(centerPoint.x+79, centerPoint.y+127, 5, 5);
-		g.drawOval(centerPoint.x-67, centerPoint.y+134, 5, 5);
-		g.drawOval(centerPoint.x-149, centerPoint.y+13, 5, 5);
-		g.drawOval(centerPoint.x-89, centerPoint.y-120, 5, 5);
-		g.drawOval(centerPoint.x+55, centerPoint.y-139, 5, 5);
-		g.drawOval(centerPoint.x+148, centerPoint.y-26, 5, 5);
-		g.drawOval(centerPoint.x+100, centerPoint.y+111, 5, 5);
-		
-		g.setColor(Color.RED);
-		g.drawOval((int)(centerPoint.x-0.5*radius), (int)(centerPoint.y-0.5*radius), radius, radius);
-		
-		Polygon polygon = new Polygon(listX, listY, CORNERS);
-		g.setColor(Color.BLUE);
+		/**
+		 * erster Versuch
+		 * 
+		 * von P(0|0) aus
+		 */
+		int[] x = new int[6];
+		int[] y = new int[6];
+
+		int a = radius;
+		int b = (int) (Math.round(a * Math.sin(Math.toRadians(30))));
+		int c = (int) (Math.round(a * Math.cos(Math.toRadians(30))));
+
+		// int[] x = {50, 150, 200, 150, 50, 0};
+		// int[] y = {0, 0, 87, 174, 174, 87};
+
+		// A
+		x[0] = startPoint.x + b;
+		y[0] = startPoint.y + 0;
+
+		// B
+		x[1] = startPoint.x + a + b;
+		y[1] = startPoint.y + 0;
+
+		// C
+		x[2] = startPoint.x + a + 2 * b;
+		y[2] = startPoint.y + c;
+
+		// D
+		x[3] = startPoint.x + a + b;
+		y[3] = startPoint.y + 2 * c;
+
+		// E
+		x[4] = startPoint.x + b;
+		y[4] = startPoint.y + 2 * c;
+
+		// E
+		x[5] = startPoint.x + 0;
+		y[5] = startPoint.y + c;
+
+		System.out.println("b: " + b);
+		System.out.println("c: " + c);
+
+		System.out.println("A: x=" + x[0] + " y=" + y[0]);
+		System.out.println("B: x=" + x[1] + " y=" + y[1]);
+		System.out.println("C: x=" + x[2] + " y=" + y[2]);
+		System.out.println("D: x=" + x[3] + " y=" + y[3]);
+		System.out.println("E: x=" + x[4] + " y=" + y[4]);
+		System.out.println("F: x=" + x[5] + " y=" + y[5]);
+		System.out.println("---");
+		System.out.println(Math.round((radius * Math.cos(Math.toRadians(30)))));
+		System.out.println("===");
+
+		Polygon polygon = new Polygon(x, y, 6);
+		g.setColor(new Color(255, 255, 0, 150));
 		g.drawPolygon(polygon);
-//		g.fillPolygon(polygon);
-		
-//		g.setColor(Color.RED);
-//		g.fillRect(0, 0, 100, 100);
+		g.fillPolygon(polygon);
 	}
-	
+
+	public Point getCenterPoint() {
+		return centerPoint;
+	}
+
+	public void setCenterPoint(Point centerPoint) {
+		this.centerPoint = centerPoint;
+	}
+
+	public Point getStartPoint() {
+		return startPoint;
+	}
+
+	public void setStartPoint(Point startPoint) {
+		this.startPoint = startPoint;
+	}
+
+	public int getRadius() {
+		return radius;
+	}
+
+	public void setRadius(int radius) {
+		this.radius = radius;
+	}
+
 }
