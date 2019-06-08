@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Polygon;
+import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
 
@@ -100,24 +101,30 @@ public class Object extends JPanel {
 		// E
 		x[5] = startPoint.x + 0;
 		y[5] = startPoint.y + c;
+		
+		if(Debug.DEBUG_OBJECT_POINTS) {
+			System.out.println("b: " + b);
+			System.out.println("c: " + c);
 
-		System.out.println("b: " + b);
-		System.out.println("c: " + c);
-
-		System.out.println("A: x=" + x[0] + " y=" + y[0]);
-		System.out.println("B: x=" + x[1] + " y=" + y[1]);
-		System.out.println("C: x=" + x[2] + " y=" + y[2]);
-		System.out.println("D: x=" + x[3] + " y=" + y[3]);
-		System.out.println("E: x=" + x[4] + " y=" + y[4]);
-		System.out.println("F: x=" + x[5] + " y=" + y[5]);
-		System.out.println("---");
-		System.out.println(Math.round((radius * Math.cos(Math.toRadians(30)))));
-		System.out.println("===");
+			System.out.println("A: x=" + x[0] + " y=" + y[0]);
+			System.out.println("B: x=" + x[1] + " y=" + y[1]);
+			System.out.println("C: x=" + x[2] + " y=" + y[2]);
+			System.out.println("D: x=" + x[3] + " y=" + y[3]);
+			System.out.println("E: x=" + x[4] + " y=" + y[4]);
+			System.out.println("F: x=" + x[5] + " y=" + y[5]);
+			System.out.println("---");
+			System.out.println(Math.round((radius * Math.cos(Math.toRadians(30)))));
+			System.out.println("===");
+		}
 
 		Polygon polygon = new Polygon(x, y, 6);
 		g.setColor(new Color(255, 255, 0, 150));
 		g.drawPolygon(polygon);
 		g.fillPolygon(polygon);
+		
+		//Icon
+		BufferedImage image = SourceLoader.loadImage("/bild.png");
+		g.drawImage(image, centerPoint.x-(radius/2), centerPoint.y-(radius/2), (radius/2)*2, (radius/2)*2, null);
 	}
 
 	public Point getCenterPoint() {

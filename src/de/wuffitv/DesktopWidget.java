@@ -21,7 +21,7 @@ public class DesktopWidget {
 		desktopWidget.frame.setUndecorated(true);		
 		desktopWidget.frame.setBackground(transparent);
 		
-		Object o = new Object(new Point(100, 87), 100);
+		Object o = new Object(new Point(100, 87), 30);
 		o.setBounds(0, 0, 200, 200);
 		desktopWidget.frame.add(o);
 		
@@ -30,6 +30,7 @@ public class DesktopWidget {
 	
 	public DesktopWidget() {
 		frame = new JFrame();
+//		BufferedImage test = SourceLoader.loadImage("/test.png");
 	}
 	
 }
